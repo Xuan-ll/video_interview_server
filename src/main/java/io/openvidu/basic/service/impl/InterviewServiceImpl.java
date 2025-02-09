@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 // 自定义类
+import io.openvidu.basic.entity;
 import io.openvidu.basic.entity.Interview;
 import io.openvidu.basic.mapper.InterviewMapper;
 import io.openvidu.basic.service.InterviewService;

@@ -14,7 +14,7 @@ import io.openvidu.basic.service.InterviewService;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class Controller {
+public class InterviewController {
 
 	@Value("${livekit.api.key}")
 	private String LIVEKIT_API_KEY;
