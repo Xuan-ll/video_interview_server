@@ -2,7 +2,6 @@ package io.openvidu.basic.controller;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,12 +14,6 @@ import io.openvidu.basic.service.InterviewService;
 @CrossOrigin(origins = "*")
 @RestController
 public class InterviewController {
-
-	@Value("${livekit.api.key}")
-	private String LIVEKIT_API_KEY;
-
-	@Value("${livekit.api.secret}")
-	private String LIVEKIT_API_SECRET;
 
 	/**
 	 * @param params JSON object with roomName and participantName and scheduledTime and createdAt
@@ -98,6 +91,11 @@ public class InterviewController {
 
 
 
+	// @Value("${livekit.api.key}")
+	// private String LIVEKIT_API_KEY;
+
+	// @Value("${livekit.api.secret}")
+	// private String LIVEKIT_API_SECRET;
 
 	// /**
 	//  * @param params JSON object with roomName and participantName

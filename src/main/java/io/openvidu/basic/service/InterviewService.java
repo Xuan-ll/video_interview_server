@@ -1,6 +1,6 @@
 package io.openvidu.basic.service;
 
-import io.openvidu.basic.entity;
+import io.openvidu.basic.entity.Interview;
 
 import java.io.IOException;
 import java.util.List;
