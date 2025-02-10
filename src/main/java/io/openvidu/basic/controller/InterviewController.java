@@ -20,6 +20,11 @@ import io.openvidu.basic.service.InterviewService;
 public class InterviewController {
 
 	private final InterviewService interviewService;
+
+	@Autowired
+    public InterviewController(InterviewService interviewService) {
+        this.interviewService = interviewService;
+    }
 	/**
 	 * @param params JSON object with roomName and participantName and scheduledTime and createdAt
 	 * @return ok
