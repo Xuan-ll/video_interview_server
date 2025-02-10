@@ -3,6 +3,8 @@ package io.openvidu.basic.service.impl;
 // 基础包
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 
 // Lombok 注解
@@ -42,7 +44,7 @@ public class InterviewServiceImpl implements InterviewService {
 
     @Override
     public String getToken(String roomName, String userName) throws Exception {
-		if (roomName == null || participantName == null) {
+		if (roomName == null || userName == null) {
 			throw new IllegalArgumentException("Room name or user name cannot be null");
 		}
         try {
@@ -58,19 +60,25 @@ public class InterviewServiceImpl implements InterviewService {
     }
 	@Override
 	public boolean createInterview(String roomName, List<String> participants, long scheduledTime, long createdAt) {
-		LocalDateTime scheduledTimeL = LocalDateTime.ofInstant(
-			Instant.ofEpochMilli(scheduledTime), 
-			ZoneId.systemDefault()
-		);
-		LocalDateTime createdAtL = LocalDateTime.ofInstant(
-			Instant.ofEpochMilli(createdAt), 
-			ZoneId.systemDefault()
-		);
+		// LocalDateTime scheduledTimeL = LocalDateTime.ofInstant(
+		// 	Instant.ofEpochMilli(scheduledTime), 
+		// 	ZoneId.systemDefault()
+		// );
+		// LocalDateTime createdAtL = LocalDateTime.ofInstant(
+		// 	Instant.ofEpochMilli(createdAt), 
+		// 	ZoneId.systemDefault()
+		// );
+		LocalDateTime scheduledTimeL = Instant.ofEpochMilli(scheduledTime)
+                                  .atZone(ZoneId.systemDefault())
+                                  .toLocalDateTime();
+		LocalDateTime createdAtL = Instant.ofEpochMilli(createdAt)
+                                  .atZone(ZoneId.systemDefault())
+                                  .toLocalDateTime();
 		Interview interview = new Interview();
 		interview.setRoomName(roomName);
 		interview.setParticipants(objectMapper.writeValueAsString(participants));
 		interview.setScheduledTime(scheduledTime);
-		interview.setCreatedAt(createAt);
+		interview.setCreatedAt(createdAt);
 		return interviewMapper.insert(interview) > 0;
 	}
 }
