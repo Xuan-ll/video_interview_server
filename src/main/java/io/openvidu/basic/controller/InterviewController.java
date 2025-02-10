@@ -18,13 +18,9 @@ import io.openvidu.basic.service.InterviewService;
 @CrossOrigin(origins = "*")
 @RestController
 public class InterviewController {
+    @Autowired
+	private InterviewService interviewService;
 
-	private final InterviewService interviewService;
-
-	@Autowired
-    public InterviewController(InterviewService interviewService) {
-        this.interviewService = interviewService;
-    }
 	/**
 	 * @param params JSON object with roomName and participantName and scheduledTime and createdAt
 	 * @return ok
