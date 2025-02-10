@@ -77,8 +77,8 @@ public class InterviewServiceImpl implements InterviewService {
 		Interview interview = new Interview();
 		interview.setRoomName(roomName);
 		interview.setParticipants(objectMapper.writeValueAsString(participants));
-		interview.setScheduledTime(scheduledTime);
-		interview.setCreatedAt(createdAt);
+		interview.setScheduledTime(scheduledTimeL);
+		interview.setCreatedAt(createdAtL);
 		return interviewMapper.insert(interview) > 0;
 	}
 }
