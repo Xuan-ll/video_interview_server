@@ -1,6 +1,9 @@
 package io.openvidu.basic.controller;
 
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +18,7 @@ import io.openvidu.basic.service.InterviewService;
 @RestController
 public class InterviewController {
 
+	private final InterviewService interviewService;
 	/**
 	 * @param params JSON object with roomName and participantName and scheduledTime and createdAt
 	 * @return ok
