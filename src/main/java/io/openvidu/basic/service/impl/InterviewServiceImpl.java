@@ -76,7 +76,15 @@ public class InterviewServiceImpl implements InterviewService {
                                   .toLocalDateTime();
 		Interview interview = new Interview();
 		interview.setRoomName(roomName);
-		interview.setParticipants(objectMapper.writeValueAsString(participants));
+
+		try {
+			interview.setParticipants(objectMapper.writeValueAsString(participants));
+		} catch (JsonProcessingException e) {
+			// 记录日志或抛出自定义异常
+			System.err.println("Failed to serialize participants: " + e.getMessage());
+			return false; // 或者抛出一个自定义异常
+		}
+		//interview.setParticipants(objectMapper.writeValueAsString(participants));
 		interview.setScheduledTime(scheduledTimeL);
 		interview.setCreatedAt(createdAtL);
 		return interviewMapper.insert(interview) > 0;
