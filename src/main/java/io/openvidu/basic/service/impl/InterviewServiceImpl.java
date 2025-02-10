@@ -19,6 +19,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Value;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+
 // 自定义类
 import io.openvidu.basic.entity.Interview;
 import io.openvidu.basic.mapper.InterviewMapper;
