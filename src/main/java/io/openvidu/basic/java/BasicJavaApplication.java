@@ -6,6 +6,7 @@ import org.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
 @MapperScan("io.openvidu.basic.mapper")	
+@ComponentScan("io.openvidu.basic.controller")
 public class BasicJavaApplication {
 
 	public static void main(String[] args) {
