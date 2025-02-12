@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @MapperScan("io.openvidu.basic.mapper")	
-@ComponentScan("io.openvidu.basic.controller")
+
 public class BasicJavaApplication {
 
 	public static void main(String[] args) {
