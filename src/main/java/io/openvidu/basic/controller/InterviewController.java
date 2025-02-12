@@ -90,13 +90,18 @@ public class InterviewController {
         }
     }
 
-
-
-
-
-
-
-
+    /**
+     * Simple endpoint to test POST request reception
+     * @param params JSON object to be echoed back
+     * @return Echoed JSON object
+     */
+    @PostMapping(value = "/test")
+    public ResponseEntity<Map<String, String>> testPostReception(@RequestBody Map<String, String> params) {
+        // Log the received parameters
+        System.out.println("Received parameters: " + params);
+        // Echo back the received parameters
+        return ResponseEntity.ok(params);
+    }
 
 	// @Value("${livekit.api.key}")
 	// private String LIVEKIT_API_KEY;
