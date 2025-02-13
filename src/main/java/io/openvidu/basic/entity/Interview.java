@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("interview")
 public class Interview {
-    @TableId(type = IdType.ASSIGN_UUID)
+    @TableId(value = "room_id", type = IdType.ASSIGN_UUID)
     private String roomId;
 
     @TableField("room_name")
