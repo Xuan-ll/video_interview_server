@@ -1,9 +1,6 @@
 package io.openvidu.basic.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -22,6 +19,13 @@ public class Interview {
     @TableField("participants")
     private String participants; // 存储为JSON字符串，如 ["hr1", "candidate1"]
     
-    @TableField("created_at")
+    @TableField("status")
+    private Integer status; // 0: 待开始, 1: 进行中, 2: 已结束, 3: 已取消
+    
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
+    
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updatedAt;
+
 }

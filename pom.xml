@@ -7,41 +7,49 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.6</version>
+        <version>3.2.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>io.openvidu</groupId>
-    <artifactId>basic-java</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>basic-java</name>
-    <description>Basic server application built for Java with Spring Boot</description>
+    <artifactId>video-interview-server</artifactId>
+    <version>1.0.0</version>
+    <name>video-interview-server</name>
+    <description>Video Interview Server with Spring Boot</description>
 
     <properties>
         <java.version>17</java.version>
+        <mybatis-plus.version>3.5.4.1</mybatis-plus.version>
+        <mysql.version>8.0.33</mysql.version>
+        <openvidu-java-client.version>2.29.0</openvidu-java-client.version>
     </properties>
 
     <dependencies>
+        <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        
+        <!-- OpenVidu Java Client -->
         <dependency>
-            <groupId>io.livekit</groupId>
-            <artifactId>livekit-server</artifactId>
-            <version>0.5.11</version>
+            <groupId>io.openvidu</groupId>
+            <artifactId>openvidu-java-client</artifactId>
+            <version>${openvidu-java-client.version}</version>
         </dependency>
 
-        <!-- MyBatis-Plus + MySQL -->
+        <!-- MyBatis Plus -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.3</version>
+            <version>${mybatis-plus.version}</version>
         </dependency>
+
+        <!-- MySQL -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>${mysql.version}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -52,17 +60,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Jackson (managed by Spring Boot) -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-
-        <!-- Spring Boot Test (解决测试依赖问题) -->
+        <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -75,7 +73,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
+
 </project>
