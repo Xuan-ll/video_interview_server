@@ -7,6 +7,8 @@ import java.time.ZoneId;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -47,6 +49,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
     }
 
     @Override
+    @Transactional
     public boolean createInterview(String roomName, List<String> participants, long scheduledTime, long createdAt) {
         try {
             LocalDateTime scheduledTimeL = Instant.ofEpochMilli(scheduledTime)
@@ -55,12 +58,14 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
             LocalDateTime createdAtL = Instant.ofEpochMilli(createdAt)
                     .atZone(ZoneId.systemDefault())
                     .toLocalDateTime();
+            LocalDateTime updatedAtL = LocalDateTime.now(); 
 
             Interview interview = new Interview();
             interview.setRoomName(roomName);
             interview.setParticipants(objectMapper.writeValueAsString(participants));
             interview.setScheduledTime(scheduledTimeL);
             interview.setCreatedAt(createdAtL);
+            interview.setUpdatedAt(updatedAtL);
 
             return save(interview);
         } catch (JsonProcessingException e) {

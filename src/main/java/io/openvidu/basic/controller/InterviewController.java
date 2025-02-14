@@ -38,7 +38,6 @@ public class InterviewController {
             List<String> participantNames = Arrays.asList(participantList.split(","));
             Long scheduledTime = Long.parseLong(params.get("scheduledTime"));
             Long createdAt = System.currentTimeMillis();
-
             boolean success = interviewService.createInterview(roomName, participantNames, scheduledTime, createdAt);
             
             if (success) {
