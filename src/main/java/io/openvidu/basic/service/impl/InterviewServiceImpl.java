@@ -50,7 +50,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
 
     @Override
     @Transactional
-    public boolean createInterview(String roomName, List<String> participants, long scheduledTime, long createdAt) {
+    public String createInterview(String roomName, List<String> participants, List<String> interviewers, long scheduledTime, String hrName, long createdAt) {
         try {
             LocalDateTime scheduledTimeL = Instant.ofEpochMilli(scheduledTime)
                     .atZone(ZoneId.systemDefault())
@@ -63,15 +63,25 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
             Interview interview = new Interview();
             interview.setRoomName(roomName);
             interview.setParticipants(objectMapper.writeValueAsString(participants));
+            interview.setInterviewers(objectMapper.writeValueAsString(interviewers));
             interview.setScheduledTime(scheduledTimeL);
+            interview.setHrName(hrName);
             interview.setCreatedAt(createdAtL);
             interview.setUpdatedAt(updatedAtL);
-
-            return save(interview);
+            Random random = new Random();
+            int roomPassword = random.nextInt(900000) + 100000; // 生成 6 位随机数
+            String roomPasswordString = String.valueOf(roomPassword);
+            interview.setRoomPassword(roomPasswordString); // 转换为字符串
+            boolean isOK = save(interview);
+            if (isOK) {
+                return roomPasswordString;
+            } else {
+                return null;
+            }
         } catch (JsonProcessingException e) {
-            return false;
+            return null;
         } catch (Exception e) {
-            return false;
+            return null;
         }
     }
 }

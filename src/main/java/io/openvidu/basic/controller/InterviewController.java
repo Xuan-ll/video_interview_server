@@ -10,12 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.openvidu.basic.service.InterviewService;
 
 @CrossOrigin(origins = "*")
 @RestController
+@RequestMapping("/api/v1")  
 public class InterviewController {
     @Autowired
     private InterviewService interviewService;
@@ -28,26 +30,25 @@ public class InterviewController {
     @PostMapping("/create")
     public ResponseEntity<?> createSession(@RequestBody Map<String, String> params) {
         try {
-            String roomName = params.get("roomName");
-            String participantList = params.get("participantName");
-            if (roomName == null || participantList == null) {
+            String roomName = params.get("room_name");
+            String participantList = params.get("cand_list");
+            String interviewerList = params.get("inter_list");
+            Long scheduledTime = Long.parseLong(params.get("scheduled_time"));
+            if (roomName == null || participantList == null || interviewerList == null || scheduledTime == null) {
                 return ResponseEntity.badRequest()
                     .body(Map.of("status", "error", "message", "房间名和参与者列表不能为空"));
             }
-
             List<String> participantNames = Arrays.asList(participantList.split(","));
-            Long scheduledTime = Long.parseLong(params.get("scheduledTime"));
+            List<String> interviewerNames = Arrays.asList(interviewerList.split(","));
+            String hrName = params.get("hr_nick_name");
             Long createdAt = System.currentTimeMillis();
-            boolean success = interviewService.createInterview(roomName, participantNames, scheduledTime, createdAt);
-            
-            if (success) {
+            String roomPassword = interviewService.createInterview(roomName, participantNames, interviewerNames, scheduledTime, hrName, createdAt);
+            if (roomPassword != null) {
                 return ResponseEntity.ok(Map.of(
                     "status", "success",
                     "message", "面试会话创建成功",
                     "data", Map.of(
-                        "roomName", roomName,
-                        "participants", participantNames,
-                        "scheduledTime", scheduledTime
+                        "room_password", roomPassword
                     )
                 ));
             } else {

@@ -8,6 +8,10 @@ CREATE TABLE IF NOT EXISTS interview (
     room_name VARCHAR(255) NOT NULL,
     scheduled_time DATETIME NOT NULL,
     participants TEXT NOT NULL,
+    interviewers TEXT NOT NULL,
+    hr_name    VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL,
-    updated_at DATETIME NOT NULL
+    updated_at DATETIME NOT NULL,
+    password   VARCHAR(255) NOT NULL,
+    status     INT NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
