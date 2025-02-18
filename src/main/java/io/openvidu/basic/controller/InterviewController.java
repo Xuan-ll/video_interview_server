@@ -17,7 +17,7 @@ import io.openvidu.basic.service.InterviewService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/v1")  
+@RequestMapping("/room")  
 public class InterviewController {
     @Autowired
     private InterviewService interviewService;
@@ -30,19 +30,22 @@ public class InterviewController {
     @PostMapping("/create")
     public ResponseEntity<?> createSession(@RequestBody Map<String, String> params) {
         try {
-            String roomName = params.get("room_name");
-            String participantList = params.get("cand_list");
-            String interviewerList = params.get("inter_list");
-            Long scheduledTime = Long.parseLong(params.get("scheduled_time"));
+            String roomName = params.get("roomName");
+            String participantList = params.get("candList");
+            String interviewerList = params.get("hrList");
+            Long scheduledTime = Long.parseLong(params.get("time"));
             if (roomName == null || participantList == null || interviewerList == null || scheduledTime == null) {
                 return ResponseEntity.badRequest()
-                    .body(Map.of("status", "error", "message", "房间名和参与者列表不能为空"));
+                    .body(Map.of("status", "error", "message", "房间名、参与者列表、预约时间不能为空"));
             }
             List<String> participantNames = Arrays.asList(participantList.split(","));
             List<String> interviewerNames = Arrays.asList(interviewerList.split(","));
-            String hrName = params.get("hr_nick_name");
+            String hrName = params.get("hrName");
+            String position = params.get("position");
+            String period = params.get("period");
             Long createdAt = System.currentTimeMillis();
-            String roomPassword = interviewService.createInterview(roomName, participantNames, interviewerNames, scheduledTime, hrName, createdAt);
+
+            String roomPassword = interviewService.createInterview(roomName, participantNames, interviewerNames, scheduledTime, hrName, position ,period, createdAt);
             if (roomPassword != null) {
                 return ResponseEntity.ok(Map.of(
                     "status", "success",
@@ -102,5 +105,10 @@ public class InterviewController {
         System.out.println("Received parameters: " + params);
         // Echo back the received parameters
         return ResponseEntity.ok(params);
+    }
+
+    @GetMapping("/get_room/{hrName}")
+    public List<Interview> getInterviewsByHrName(@PathVariable String hrName) {
+        return interviewService.getInterviewsByHrName(hrName);
     }
 }

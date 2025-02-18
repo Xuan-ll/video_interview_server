@@ -7,6 +7,7 @@ import java.util.List;
 public interface InterviewService extends IService<Interview> {
 
     String getToken(String roomName, String userName) throws Exception;
-    String createInterview(String roomName, List<String> participants, List<String> interviewers, long scheduledTime, String hrName, long createdAt);
+    String createInterview(String roomName, List<String> participants, List<String> interviewers, long scheduledTime, String hrName,String position, String period, long createdAt);
     // 如果还有其他方法，可以继续添加
+    List<Interview> getInterviewsByHrName(String hrName);
 }

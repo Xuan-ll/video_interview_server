@@ -1,6 +1,7 @@
 package io.openvidu.basic.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import java.time.LocalDateTime;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -50,7 +51,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
 
     @Override
     @Transactional
-    public String createInterview(String roomName, List<String> participants, List<String> interviewers, long scheduledTime, String hrName, long createdAt) {
+    public String createInterview(String roomName, List<String> participants, List<String> interviewers, long scheduledTime, String hrName,String position, String period, long createdAt) {
         try {
             LocalDateTime scheduledTimeL = Instant.ofEpochMilli(scheduledTime)
                     .atZone(ZoneId.systemDefault())
@@ -62,12 +63,15 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
 
             Interview interview = new Interview();
             interview.setRoomName(roomName);
+            interview.setScheduledTime(scheduledTimeL);
             interview.setParticipants(objectMapper.writeValueAsString(participants));
             interview.setInterviewers(objectMapper.writeValueAsString(interviewers));
-            interview.setScheduledTime(scheduledTimeL);
             interview.setHrName(hrName);
             interview.setCreatedAt(createdAtL);
             interview.setUpdatedAt(updatedAtL);
+            interview.setPosition(position);
+            interview.setInterviewPeriod(period);
+            interview.setInterviewStatus(0);
             Random random = new Random();
             int roomPassword = random.nextInt(900000) + 100000; // 生成 6 位随机数
             String roomPasswordString = String.valueOf(roomPassword);
@@ -84,4 +88,10 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
             return null;
         }
     }
+    @Override
+    public List<Interview> getInterviewsByHrName(String hrName) {
+        QueryWrapper<Interview> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("hr_name", hrName);
+        return interviewMapper.selectList(queryWrapper);
+    }    
 }

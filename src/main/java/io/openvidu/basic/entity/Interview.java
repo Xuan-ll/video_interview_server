@@ -25,16 +25,26 @@ public class Interview {
     @TableField("hr_name")
     private String hrName;
 
-    @TableField("status")
-    private Integer status; // 0: 待开始, 1: 进行中, 2: 已结束, 3: 已取消
+    @TableField("interview_status")
+    private Integer interviewStatus; // 0: 待开始, 1: 进行中, 2: 已结束, 3: 已取消
     
-    @TableField(fill = FieldFill.INSERT)
+    @TableField("position")
+    private String position;
+
+    @TableField("interview_period")
+    private String interviewPeriod;
+
+    @TableField("created_at")
     private LocalDateTime createdAt;
     
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+    @TableField("updated_at")
     private LocalDateTime updatedAt;
 
-    @TableField("password")
-    private String password;
-
+    @TableField("interview_password")
+    private String interviewPassword;
+    // @TableField(fill = FieldFill.INSERT)
+    // private LocalDateTime createdAt;
+    
+    // @TableField(fill = FieldFill.INSERT_UPDATE)
+    // private LocalDateTime updatedAt;
 }
