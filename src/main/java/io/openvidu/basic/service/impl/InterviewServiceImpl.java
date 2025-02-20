@@ -81,7 +81,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
             Random random = new Random();
             int roomPassword = random.nextInt(900000) + 100000; // 生成 6 位随机数
             String roomPasswordString = String.valueOf(roomPassword);
-            interview.setRoomPassword(roomPasswordString); // 转换为字符串
+            interview.setInterviewPassword(roomPasswordString); // 转换为字符串
             boolean isOK = save(interview);
 
             if (isOK) {
@@ -102,7 +102,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
     public List<GetInterviewsResp> getInterviewsByHrName(String hrName) {
         QueryWrapper<Interview> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("hr_name", hrName);
-        List<Interview> interviews = interviewMapper.selectList(queryWrapper);
+        List<Interview> interviews = InterviewMapper.selectList(queryWrapper);
         List<GetInterviewsResp> result = new ArrayList<>();
         for (Interview interview : interviews) {
             result.add(new GetInterviewsResp(interview));
@@ -114,7 +114,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
     public GetInterviewsResp getInterviewsByRoomId(String roomId) {
         QueryWrapper<Interview> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("room_id", roomId);
-        Interview interview = interviewMapper.selectOne(queryWrapper);
+        Interview interview = InterviewMapper.selectOne(queryWrapper);
         if (interview == null) {
             return null;
         }
@@ -126,7 +126,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
             // 根据roomId查询现有记录
             QueryWrapper<Interview> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("room_id", roomId);
-            Interview interview = interviewMapper.selectOne(queryWrapper);
+            Interview interview = InterviewMapper.selectOne(queryWrapper);
     
             if (interview == null) {
                 return "查询的房间不存在";
@@ -156,7 +156,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
             interview.setPosition(position);
             interview.setInterviewPeriod(period);
             interview.setUpdatedAt(updatedAtL);
-            boolean isOK = interviewMapper.updateById(interview);
+            boolean isOK = InterviewMapper.updateById(interview);
             if (isOK) {
                 return "";
             } else {
@@ -171,7 +171,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
         try {
             QueryWrapper<Interview> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("room_id", roomId);
-            Interview interview = interviewMapper.selectOne(queryWrapper);
+            Interview interview = InterviewMapper.selectOne(queryWrapper);
             if (interview == null) {
                 return "会议不存在";
             } 
@@ -203,12 +203,12 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
         try {
             QueryWrapper<Interview> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("room_id", roomId);
-            Interview interview = interviewMapper.selectOne(queryWrapper);
+            Interview interview = InterviewMapper.selectOne(queryWrapper);
             if (interview == null) {
                 return "会议不存在";
             }
             interview.setInterviewStatus(status);
-            boolean isOK = interviewMapper.updateById(interview);
+            boolean isOK = InterviewMapper.updateById(interview);
             if (isOK) {
                 return "";
             } else {
@@ -223,12 +223,12 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
         try {
             QueryWrapper<Interview> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("room_id", roomId);
-            Interview interview = interviewMapper.selectOne(queryWrapper);
+            Interview interview = InterviewMapper.selectOne(queryWrapper);
             if (interview == null) {
                 return "会议不存在";
             }
             interview.setInterviewText(snote);
-            boolean isOK = interviewMapper.updateById(interview);
+            boolean isOK = InterviewMapper.updateById(interview);
             if (isOK) {
                 return "";
             } else {
@@ -244,7 +244,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
         try {
             QueryWrapper<Interview> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("room_id", roomId);
-            Interview interview = interviewMapper.selectOne(queryWrapper);
+            Interview interview = InterviewMapper.selectOne(queryWrapper);
             if (interview == null) {
                 return "";
             }

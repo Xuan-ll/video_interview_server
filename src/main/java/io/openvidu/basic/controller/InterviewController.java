@@ -51,7 +51,7 @@ public class InterviewController {
             Long createdAt = System.currentTimeMillis();
 
             Map<String, String> roomInfo = interviewService.createInterview(roomName, participantNames, interviewerNames, scheduledTime, hrName, position ,period, createdAt);
-            if (roomPassword != null) {
+            if (roomInfo != null) {
                 return ResponseEntity.ok(Map.of(
                     "status", "success",
                     "message", "面试会话创建成功",

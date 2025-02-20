@@ -8,8 +8,8 @@ public class GetInterviewsResp {
     public String roomId;
     public String roomName;
     public LocalDateTime scheduledTime;
-    public List<String> participants;
-    public List<String> interviewers;
+    public String participants;
+    public String interviewers;
     public Integer interviewStatus;
     public String position;
     public String interviewPeriod;
