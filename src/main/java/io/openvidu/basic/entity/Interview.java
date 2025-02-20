@@ -42,6 +42,9 @@ public class Interview {
 
     @TableField("interview_password")
     private String interviewPassword;
+
+    @TableField("interview_text")
+    private String interviewText;
     // @TableField(fill = FieldFill.INSERT)
     // private LocalDateTime createdAt;
     
