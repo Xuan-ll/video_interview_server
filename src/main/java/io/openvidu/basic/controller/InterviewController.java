@@ -56,7 +56,7 @@ public class InterviewController {
                     "message", "面试会话创建成功",
                     "data", Map.of(
                         "roomPwd", roomInfo.get("roomPassword"),
-                        "roomId", roomInfo.get("roomId"),
+                        "roomId", roomInfo.get("roomId")
                     )
                 ));
             } else {
@@ -271,7 +271,7 @@ public class InterviewController {
                 return ResponseEntity.ok(Map.of(
                     "status", "success",
                     "message", "笔记保存成功"
-                ))
+                ));
             }
             else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)

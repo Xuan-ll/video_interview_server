@@ -215,7 +215,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
         }
     }
     @Override
-    public saveNote(String roomId,String snote) {
+    public String saveNote(String roomId,String snote) {
         try {
             QueryWrapper<Interview> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("room_id", roomId);
