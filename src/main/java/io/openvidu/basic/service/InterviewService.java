@@ -3,6 +3,7 @@ package io.openvidu.basic.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.openvidu.basic.entity.Interview;
 import java.util.List;
+import java.util.Map;
 
 public interface InterviewService extends IService<Interview> {
     String getToken(String roomName, String userName) throws Exception;
