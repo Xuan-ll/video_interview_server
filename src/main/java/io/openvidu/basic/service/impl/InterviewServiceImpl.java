@@ -158,8 +158,8 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
             interview.setPosition(position);
             interview.setInterviewPeriod(period);
             interview.setUpdatedAt(updatedAtL);
-            boolean isOK = interviewMapper.updateById(interview);
-            if (isOK) {
+            int isOK = interviewMapper.updateById(interview);
+            if (isOK==1) {
                 return "";
             } else {
                 return "更新面试信息失败";
@@ -210,8 +210,8 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
                 return "会议不存在";
             }
             interview.setInterviewStatus(status);
-            boolean isOK = interviewMapper.updateById(interview);
-            if (isOK) {
+            int isOK = interviewMapper.updateById(interview);
+            if (isOK==1) {
                 return "";
             } else {
                 return "结束会议失败";
@@ -230,8 +230,8 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
                 return "会议不存在";
             }
             interview.setInterviewText(snote);
-            boolean isOK = interviewMapper.updateById(interview);
-            if (isOK) {
+            int isOK = interviewMapper.updateById(interview);
+            if (isOK==1) {
                 return "";
             } else {
                 return "保存笔记失败";
