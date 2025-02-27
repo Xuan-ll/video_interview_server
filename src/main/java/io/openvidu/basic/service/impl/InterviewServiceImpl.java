@@ -177,7 +177,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
             if (interview == null) {
                 return "会议不存在";
             } 
-            if (interview.getInterviewStatus()!= 2) {
+            if (interview.getInterviewStatus()== 2) {
                 return "会议已结束";
             }
             if (interview.getInterviewStatus() == 3) {
