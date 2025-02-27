@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import io.openvidu.basic.service.InterviewService;
 import io.openvidu.basic.service.GetInterviewsResp;
@@ -105,8 +106,8 @@ public class InterviewController {
      * @param hrName hr名字
      * @return 所有预约的房间
      */
-    @GetMapping("/get_all_rooms/{hrName}")
-    public ResponseEntity<?> getInterviewsByHrName(@PathVariable String hrName) {
+    @GetMapping("/get_all_rooms")
+    public ResponseEntity<?> getInterviewsByHrName(@RequestParam String hrName) {
         try {
             List<GetInterviewsResp> interviews = interviewService.getInterviewsByHrName(hrName);
             return ResponseEntity.ok(Map.of(
