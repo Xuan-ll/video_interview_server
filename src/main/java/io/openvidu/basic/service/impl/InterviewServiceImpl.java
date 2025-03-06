@@ -9,14 +9,16 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import io.openvidu.basic.entity.Interview;
 import io.openvidu.basic.mapper.InterviewMapper;
 import io.openvidu.basic.service.InterviewService;
 import io.openvidu.basic.service.GetInterviewsResp;
+import io.openvidu.basic.config.WebConfig;
+
 import io.livekit.server.AccessToken;
 import io.livekit.server.RoomJoin;
 import io.livekit.server.RoomName;
@@ -24,6 +26,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +44,8 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
     private final ObjectMapper objectMapper;
 
     private final InterviewMapper interviewMapper;
+
+    private final RestTemplate restTemplate;
 
     @Override
     public String getToken(String roomName, String userName) throws Exception {
@@ -254,5 +262,58 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
         } catch (Exception e) {
             return "";
         }  
+    }
+    @Override
+    public Map<String, Object> getUserInfoByToken(String authUrl, String token) {
+        try {
+            // 构建带有token参数的URL
+            String url = UriComponentsBuilder.fromHttpUrl(authUrl)
+                    .queryParam("token", token)
+                    .toUriString();
+            
+            // 发送GET请求
+            ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
+            
+            // 检查响应状态
+            if (response.getStatusCode().is2xxSuccessful()) {
+                Map<String, Object> responseBody = response.getBody();
+                
+                // 处理返回的用户信息
+                Map<String, Object> processedUserInfo = new HashMap<>();
+                
+                // 假设返回的数据结构包含code和data字段
+                if (responseBody != null && responseBody.containsKey("code") && (Integer)responseBody.get("code") == 200) {
+                    Map<String, Object> userData = (Map<String, Object>) responseBody.get("data");
+                    
+                    // 提取需要的用户信息
+                    if (userData != null) {
+                        processedUserInfo.put("userId", userData.get("id"));
+                        processedUserInfo.put("username", userData.get("username"));
+                        processedUserInfo.put("nickName", userData.get("nick_name"));
+                        processedUserInfo.put("role", userData.get("role"));
+                        // 可以根据实际需要提取更多字段
+                        return processedUserInfo;
+                    }
+                    else {
+                        processedUserInfo.put("error", "用户信息查询为空");
+                        return processedUserInfo;
+                    }
+                } else {
+                    // 鉴权失败
+                    processedUserInfo.put("error", "鉴权失败，未找到该用户信息");
+                    return processedUserInfo;
+                }
+            } else {
+                // 请求失败
+                Map<String, Object> errorInfo = new HashMap<>();
+                errorInfo.put("error", "Request failed with status: " + response.getStatusCodeValue());
+                return errorInfo;
+            }
+        } catch (Exception e) {
+            // 异常处理
+            Map<String, Object> errorInfo = new HashMap<>();
+            errorInfo.put("error", "Failed to authenticate user: " + e.getMessage());
+            return errorInfo;
+        }
     }
 }

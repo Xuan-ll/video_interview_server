@@ -27,15 +27,31 @@ import io.openvidu.basic.service.GetInterviewsResp;
 public class InterviewController {
     @Autowired
     private InterviewService interviewService;
-
+    
+    @Value("${auth.service.url}")
+    private String authServiceUrl;
     /**
      * 创建面试会话
      * @param params 包含 roomName, participantName, scheduledTime 的参数
      * @return 创建结果
      */    
     @PostMapping("/create")
-    public ResponseEntity<?> createSession(@RequestBody Map<String, String> params) {
+    public ResponseEntity<?> createSession(@RequestBody Map<String, String> params, @RequestHeader(value = "Authorization") String authorization) {
         try {
+            String token = authorization;
+            if (authorization.startsWith("Bearer ")) {
+                token = authorization.substring(7);
+            }
+            Map<String, Object> userInfo = interviewService.getUserInfoByToken(authServiceUrl, token);
+            if (userInfo.containsKey("error")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("status", "error", "message", userInfo.get("error")));
+            }
+            int role = (int)userInfo.get("role");
+            if role != 2 {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                  .body(Map.of("status", "error", "message", "非hr用户，无权创建会议"));
+            }
             String roomName = params.get("roomName");
             String participantList = params.get("candList");
             String interviewerList = params.get("hrList");
@@ -46,7 +62,7 @@ public class InterviewController {
             }
             List<String> participantNames = Arrays.asList(participantList.split(","));
             List<String> interviewerNames = Arrays.asList(interviewerList.split(","));
-            String hrName = params.get("hrName");
+            String hrName = (String)userInfo.get("nickName");
             String position = params.get("position");
             String period = params.get("period");
             Long createdAt = System.currentTimeMillis();
@@ -107,8 +123,23 @@ public class InterviewController {
      * @return 所有预约的房间
      */
     @GetMapping("/get_all_rooms")
-    public ResponseEntity<?> getInterviewsByHrName(@RequestParam String hrName) {
+    public ResponseEntity<?> getInterviewsByHrName(@RequestHeader(value = "Authorization") String authorization) {
         try {
+            String token = authorization;
+            if (authorization.startsWith("Bearer ")) {
+                token = authorization.substring(7);
+            }
+            Map<String, Object> userInfo = interviewService.getUserInfoByToken(authServiceUrl, token);
+            if (userInfo.containsKey("error")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("status", "error", "message", userInfo.get("error")));
+            }
+            int role = (int)userInfo.get("role");
+            if role != 2 {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                  .body(Map.of("status", "error", "message", "非hr用户，无会议列表"));
+            }
+            String hrName = (String)userInfo.get("nickName");
             List<GetInterviewsResp> interviews = interviewService.getInterviewsByHrName(hrName);
             return ResponseEntity.ok(Map.of(
                 "status", "success",
@@ -126,8 +157,22 @@ public class InterviewController {
      * @return 房间信息
      */
     @GetMapping("/get_room/{roomId}")
-    public ResponseEntity<?> getInterviewsByRoomId(@PathVariable String roomId) {
+    public ResponseEntity<?> getInterviewsByRoomId(@PathVariable String roomId, @RequestHeader(value = "Authorization") String authorization) {
         try {
+             String token = authorization;
+            if (authorization.startsWith("Bearer ")) {
+                token = authorization.substring(7);
+            }
+            Map<String, Object> userInfo = interviewService.getUserInfoByToken(authServiceUrl, token);
+            if (userInfo.containsKey("error")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("status", "error", "message", userInfo.get("error")));
+            }
+            int role = (int)userInfo.get("role");
+            if role != 2 {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                  .body(Map.of("status", "error", "message", "非hr用户，无权查看会议"));
+            }
             GetInterviewsResp interview = interviewService.getInterviewsByRoomId(roomId);
             return ResponseEntity.ok(Map.of(
                 "status", "success",
@@ -146,8 +191,22 @@ public class InterviewController {
      * @return 修改结果
      */
     @PutMapping("/update/{roomId}")
-    public ResponseEntity<?> updateSession( @PathVariable String roomId, @RequestBody Map<String, String> params) {
+    public ResponseEntity<?> updateSession( @PathVariable String roomId, @RequestBody Map<String, String> params, @RequestHeader(value = "Authorization") String authorization) {
         try {
+             String token = authorization;
+            if (authorization.startsWith("Bearer ")) {
+                token = authorization.substring(7);
+            }
+            Map<String, Object> userInfo = interviewService.getUserInfoByToken(authServiceUrl, token);
+            if (userInfo.containsKey("error")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("status", "error", "message", userInfo.get("error")));
+            }
+            int role = (int)userInfo.get("role");
+            if role != 2 {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                  .body(Map.of("status", "error", "message", "非hr用户，无权创建会议"));
+            }
             String roomName = params.get("roomName");
             if (roomName == null) {
                 return ResponseEntity.badRequest()
@@ -162,7 +221,7 @@ public class InterviewController {
             scheduledTime = Long.parseLong(params.get("time"));
             String position = params.get("position");
             String period = params.get("period");
-            String hrName = params.get("hrName");
+            String hrName = (String)userInfo.get("nickName");
             Long updateAt = System.currentTimeMillis();
             
             String msg = interviewService.updateInterview(
