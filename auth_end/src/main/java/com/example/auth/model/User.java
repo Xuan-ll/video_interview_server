@@ -13,7 +13,7 @@ public class User {
     public User(Long id, String username, String nickName, String role) {
         this.id = id;
         this.username = username;
-        this.nickName = nickName;int
+        this.nickName = nickName;
         this.role = role;
     }
 
