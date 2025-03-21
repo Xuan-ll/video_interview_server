@@ -48,7 +48,7 @@ public class InterviewController {
                     .body(Map.of("status", "error", "message", userInfo.get("error")));
             }
             int role = (int)userInfo.get("role");
-            if role != 2 {
+            if (role != 2) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                   .body(Map.of("status", "error", "message", "非hr用户，无权创建会议"));
             }
@@ -135,7 +135,7 @@ public class InterviewController {
                     .body(Map.of("status", "error", "message", userInfo.get("error")));
             }
             int role = (int)userInfo.get("role");
-            if role != 2 {
+            if (role != 2) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                   .body(Map.of("status", "error", "message", "非hr用户，无会议列表"));
             }
@@ -169,7 +169,7 @@ public class InterviewController {
                     .body(Map.of("status", "error", "message", userInfo.get("error")));
             }
             int role = (int)userInfo.get("role");
-            if role != 2 {
+            if (role != 2) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                   .body(Map.of("status", "error", "message", "非hr用户，无权查看会议"));
             }
@@ -203,7 +203,7 @@ public class InterviewController {
                     .body(Map.of("status", "error", "message", userInfo.get("error")));
             }
             int role = (int)userInfo.get("role");
-            if role != 2 {
+            if (role != 2) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                   .body(Map.of("status", "error", "message", "非hr用户，无权创建会议"));
             }
