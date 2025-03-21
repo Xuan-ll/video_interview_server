@@ -10,7 +10,7 @@ public class User {
     private int role;
 
     // 构造函数
-    public User(Long id, String username, String nickName, String role) {
+    public User(Long id, String username, String nickName, int role) {
         this.id = id;
         this.username = username;
         this.nickName = nickName;
