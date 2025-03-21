@@ -1,6 +1,5 @@
 package io.openvidu.basic.service;
 
-import java.util.List;
 import java.time.LocalDateTime;
 import io.openvidu.basic.entity.Interview;
 
