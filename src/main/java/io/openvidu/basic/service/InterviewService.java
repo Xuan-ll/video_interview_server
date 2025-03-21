@@ -15,5 +15,5 @@ public interface InterviewService extends IService<Interview> {
     String endInterview(String roomId, int status);  
     String saveNote(String roomId,String snote);
     String getNote(String roomId);
-    Map<String, Object> Map<String, Object> getUserInfoByToken(String authUrl, String token);
+    Map<String, Object> getUserInfoByToken(String authUrl, String token);
 }
