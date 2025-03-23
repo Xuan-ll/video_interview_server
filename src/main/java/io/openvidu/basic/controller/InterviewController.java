@@ -143,7 +143,7 @@ public class InterviewController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                   .body(Map.of("status", "error", "message", "非hr用户，无会议列表"));
             }
-            String hrName = (String)userInfo.get("nickName");
+            String hrName = (String)userInfo.get("nickname");
             List<GetInterviewsResp> interviews = interviewService.getInterviewsByHrName(hrName);
             return ResponseEntity.ok(Map.of(
                 "status", "success",
@@ -225,7 +225,7 @@ public class InterviewController {
             scheduledTime = Long.parseLong(params.get("time"));
             String position = params.get("position");
             String period = params.get("period");
-            String hrName = (String)userInfo.get("nickName");
+            String hrName = (String)userInfo.get("nickname");
             Long updateAt = System.currentTimeMillis();
             
             String msg = interviewService.updateInterview(
