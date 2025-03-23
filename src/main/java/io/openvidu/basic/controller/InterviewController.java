@@ -45,6 +45,7 @@ public class InterviewController {
                 token = authorization.substring(7);
             }
             Map<String, Object> userInfo = interviewService.getUserInfoByToken(authServiceUrl, token);
+            System.out.println("User info: " + userInfo);
             if (userInfo.containsKey("error")) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("status", "error", "message", userInfo.get("error")));
@@ -65,6 +66,7 @@ public class InterviewController {
             List<String> participantNames = Arrays.asList(participantList.split(","));
             List<String> interviewerNames = Arrays.asList(interviewerList.split(","));
             String hrName = (String)userInfo.get("nickName");
+            System.out.println("hrName: " + hrName);
             String position = params.get("position");
             String period = params.get("period");
             Long createdAt = System.currentTimeMillis();
