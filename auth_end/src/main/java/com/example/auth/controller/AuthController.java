@@ -13,7 +13,7 @@ public class AuthController {
 
     @GetMapping("/user-info")
     public ApiResponse<User> getUserInfo(@RequestParam String token) {
-        User user = new User(1L, "testuser", "Test User", 2);
+        User user = new User(1523456L, "testuser", "Bob", 2);
         return ApiResponse.success(user);
     }
 }
