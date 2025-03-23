@@ -289,7 +289,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
                     if (userData != null) {
                         processedUserInfo.put("userId", userData.get("id"));
                         processedUserInfo.put("username", userData.get("username"));
-                        processedUserInfo.put("nickName", userData.get("nick_name"));
+                        processedUserInfo.put("nickname", userData.get("nickname"));
                         processedUserInfo.put("role", userData.get("role"));
                         // 可以根据实际需要提取更多字段
                         return processedUserInfo;
