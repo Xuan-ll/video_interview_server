@@ -65,7 +65,7 @@ public class InterviewController {
             }
             List<String> participantNames = Arrays.asList(participantList.split(","));
             List<String> interviewerNames = Arrays.asList(interviewerList.split(","));
-            String hrName = (String)userInfo.get("nickName");
+            String hrName = (String)userInfo.get("nickname");
             System.out.println("hrName: " + hrName);
             String position = params.get("position");
             String period = params.get("period");
